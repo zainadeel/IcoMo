@@ -47,7 +47,7 @@ All standard SVG attributes are forwarded, plus:
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `size` | `number \| string` | `16` | Width and height |
+| `size` | `number \| string` | `20` | Width and height |
 | `color` | `string` | `'currentColor'` | Fill color |
 | `className` | `string` | — | CSS class |
 

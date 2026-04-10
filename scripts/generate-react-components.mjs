@@ -26,7 +26,7 @@ mkdirSync(DIST_ICONS, { recursive: true });
 const createIconMjs = `import { forwardRef, createElement } from 'react';
 
 const createIcon = (name, children) =>
-  forwardRef(({ size = 16, color = 'currentColor', className, ...rest }, ref) =>
+  forwardRef(({ size = 20, color = 'currentColor', className, ...rest }, ref) =>
     createElement('svg', {
       ref,
       xmlns: 'http://www.w3.org/2000/svg',
