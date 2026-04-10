@@ -1,18 +1,17 @@
-# @icomo/icons
+# @ds-mo/icons
 
-380 SVG icons as tree-shakeable React components, TypeScript definitions, and SVG sprite.
+IcoMo — 380 SVG icons as tree-shakeable React components, TypeScript definitions, and SVG sprite.
+
+Part of the **ds-mo design system trilogy**: [@ds-mo/tokens](https://www.npmjs.com/package/@ds-mo/tokens) → **@ds-mo/icons** → [@ds-mo/ui](https://www.npmjs.com/package/@ds-mo/ui) (CompoMo).
 
 Figma-first: icons are exported from Figma and built into React components via generator scripts. Drop in new SVGs, run the build, everything updates.
 
 ## Install
 
 ```bash
-npm install @icomo/icons
+npm install @ds-mo/icons
 # or
-pnpm add @icomo/icons
-
-# Local development (no npm publish needed):
-pnpm add file:../path/to/icomo
+pnpm add @ds-mo/icons
 ```
 
 React is a peer dependency — make sure it's installed in your project.
@@ -22,17 +21,16 @@ React is a peer dependency — make sure it's installed in your project.
 ### React components
 
 ```tsx
-import { ArrowRight, CheckCircle, Gear } from '@icomo/icons';
+import { ArrowRight, CheckCircle, Gear } from '@ds-mo/icons';
 
-// Default: 16px, currentColor
+// Default: 20px, currentColor
 <ArrowRight />
+
+// Custom size
+<ArrowRight size={24} />
 
 // Custom size and color
 <ArrowRight size={24} color="red" />
-
-// With TokoMo tokens
-import { dimensionSize400, colorIconPrimary } from '@tokomo/tokens/ts';
-<ArrowRight size={dimensionSize400} color={colorIconPrimary} />
 
 // With CSS variables
 <ArrowRight size="var(--dimension-size-400)" color="var(--color-icon-primary)" />
@@ -56,7 +54,7 @@ All standard SVG attributes are forwarded, plus:
 For guaranteed tree-shaking in environments where barrel imports aren't optimised:
 
 ```tsx
-import { ArrowRight } from '@icomo/icons/icons/ArrowRight';
+import { ArrowRight } from '@ds-mo/icons/icons/ArrowRight';
 ```
 
 ### SVG sprite (non-React)
@@ -64,9 +62,27 @@ import { ArrowRight } from '@icomo/icons/icons/ArrowRight';
 Include the sprite in your HTML, then reference icons by kebab-case name:
 
 ```html
-<svg width="16" height="16"><use href="/sprite.svg#arrow-right"/></svg>
-<svg width="16" height="16"><use href="/sprite.svg#check-circle"/></svg>
-<svg width="16" height="16"><use href="/sprite.svg#gear"/></svg>
+<svg width="20" height="20"><use href="/sprite.svg#arrow-right"/></svg>
+<svg width="20" height="20"><use href="/sprite.svg#check-circle"/></svg>
+<svg width="20" height="20"><use href="/sprite.svg#gear"/></svg>
+```
+
+## CompoMo integration
+
+IcoMo icons are designed to work with [CompoMo (@ds-mo/ui)](https://www.npmjs.com/package/@ds-mo/ui) components via the `icon` prop pattern. CompoMo components accept any React component that matches:
+
+```ts
+icon?: React.ComponentType<{ size?: number | string }>
+```
+
+All IcoMo icons satisfy this interface, so you can pass them directly:
+
+```tsx
+import { Button } from '@ds-mo/ui';
+import { ArrowRight, CheckCircle } from '@ds-mo/icons';
+
+<Button icon={ArrowRight}>Continue</Button>
+<Button icon={CheckCircle} variant="success">Done</Button>
 ```
 
 ## Icon names

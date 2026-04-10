@@ -1,5 +1,5 @@
 {
-  "name": "@icomo/icons",
+  "name": "@ds-mo/icons",
   "version": "0.1.0",
   "description": "IcoMo — 380 SVG icons as tree-shakeable React components, TypeScript definitions, and SVG sprite",
   "keywords": [
@@ -9,7 +9,9 @@
     "icon-library",
     "design-system",
     "tree-shakeable",
-    "typescript"
+    "typescript",
+    "compomo",
+    "ds-mo"
   ],
   "homepage": "https://github.com/zainadeel/icomo#readme",
   "bugs": "https://github.com/zainadeel/icomo/issues",
@@ -38,8 +40,7 @@
     }
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
