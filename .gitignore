@@ -22,3 +22,5 @@ docs/index.html
 
 # Claude
 .claude/
+docs/icons-data.js
+docs/sprite.svg
