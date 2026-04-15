@@ -1,6 +1,6 @@
 # @ds-mo/icons
 
-IcoMo — 380 SVG icons as tree-shakeable React components, TypeScript definitions, and SVG sprite.
+IcoMo — 377 SVG icons as tree-shakeable React components, TypeScript definitions, and SVG sprite.
 
 Part of the **ds-mo design system trilogy**: [@ds-mo/tokens](https://www.npmjs.com/package/@ds-mo/tokens) → **@ds-mo/icons** → [@ds-mo/ui](https://www.npmjs.com/package/@ds-mo/ui) (CompoMo).
 
@@ -15,6 +15,10 @@ pnpm add @ds-mo/icons
 ```
 
 React is a peer dependency — make sure it's installed in your project.
+
+## Icon browser
+
+Browse and search all icons at the [GitHub Pages icon browser](https://zainadeel.github.io/icomo/). Includes a live search, size slider, and click-to-copy import statements.
 
 ## Usage
 
