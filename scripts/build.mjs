@@ -45,6 +45,10 @@ function build() {
   console.log('  → Generating SVG sprite...');
   execSync('node scripts/generate-sprite.mjs', { cwd: PKG_ROOT, stdio: 'inherit' });
 
+  // Step 5: Generate meta manifest (aliases + kebab names) for agents / docs
+  console.log('  → Generating meta manifest...');
+  execSync('node scripts/generate-meta.mjs', { cwd: PKG_ROOT, stdio: 'inherit' });
+
   const elapsed = Date.now() - startTime;
   console.log(`\n✅ @icomo/icons built in ${elapsed}ms\n`);
 }
@@ -56,9 +60,13 @@ if (isWatch) {
 
   const { watch } = await import('chokidar');
 
-  const watcher = watch([path.join(SRC_DIR, 'icons', '*.svg')], {
-    ignoreInitial: true,
-  });
+  const watcher = watch(
+    [
+      path.join(SRC_DIR, 'icons', '*.svg'),
+      path.join(SRC_DIR, 'icons', '*.json'),
+    ],
+    { ignoreInitial: true }
+  );
 
   let debounceTimer = null;
   const rebuild = () => {

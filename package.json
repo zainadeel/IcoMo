@@ -34,6 +34,12 @@
       "types": "./dist/icons/*.d.ts"
     },
     "./sprite": "./dist/sprite.svg",
+    "./meta": {
+      "import": "./dist/meta.mjs",
+      "types": "./dist/meta.d.ts",
+      "default": "./dist/meta.json"
+    },
+    "./meta.json": "./dist/meta.json",
     "./createIcon": {
       "import": "./dist/createIcon.mjs",
       "types": "./dist/createIcon.d.ts"
