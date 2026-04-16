@@ -44,7 +44,18 @@ const icons = readdirSync(iconsDir)
   .map(f => {
     const pascal = basename(f, '.svg');
     const kebab = toKebabCase(pascal);
-    return { pascal, kebab };
+
+    // Pull aliases from sidecar JSON if present (src/icons/<Pascal>.json).
+    let aliases = [];
+    const sidecar = join(iconsDir, `${pascal}.json`);
+    try {
+      const parsed = JSON.parse(readFileSync(sidecar, 'utf8'));
+      if (Array.isArray(parsed.aliases)) aliases = parsed.aliases;
+    } catch {
+      // missing or malformed sidecar — fine, just no aliases
+    }
+
+    return { pascal, kebab, aliases };
   });
 
 const iconsDataJs = `const ICONS = ${JSON.stringify(icons)};`;

@@ -376,7 +376,10 @@ render();
 
 function render() {
   const filtered = query
-    ? ICONS.filter(i => i.pascal.toLowerCase().includes(query))
+    ? ICONS.filter(i =>
+        i.pascal.toLowerCase().includes(query) ||
+        (i.aliases && i.aliases.some(a => a.includes(query)))
+      )
     : ICONS;
 
   if (query) {
