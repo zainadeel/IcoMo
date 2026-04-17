@@ -1,7 +1,7 @@
 {
   "aliases": [
-    "dot-filled",
-    "solid-dot",
-    "bullet"
+    "disc",
+    "solid-circle",
+    "dot-filled"
   ]
 }

@@ -10,6 +10,8 @@ Once approved, each line becomes a sidecar `src/icons/<IconName>.json` with:
 { "aliases": ["alias1", "alias2", "alias3"] }
 ```
 
+**Direction-paired icons** (Left/Right, Up/Down, Top/Bottom): include a direction word in the aliases — e.g. `LeftExpand` gets `expand-left`, `RightExpand` gets `expand-right` — so search can disambiguate them.
+
 ---
 
 ## ⚠️ Needs your eyeballs (ambiguous / domain-specific)
@@ -31,7 +33,7 @@ Please confirm these — I guessed from name alone:
 
 ---
 
-## Full list (377 icons)
+## Full list (390 icons)
 
 ### A
 
@@ -106,7 +108,7 @@ Please confirm these — I guessed from name alone:
 - `ChevronRightDouble` → `last`, `fast-forward`, `next-all`
 - `ChevronUp` → `collapse`, `up-arrow`, `caret-up`
 - `ChevronUpDown` → `sort`, `reorder`, `select`
-- `Circle` → `ring`, `dot`, `round`
+- `Circle` → `ring`, `shape`, `dot`
 - `CircleArrow` → `direction`, `rotate`, `round-arrow`
 - `CircleArrowsDiff` → `swap-circle`, `refresh-swap`, `exchange-round`
 - `CircleArrowsDiffDisabled` → `swap-off-circle`, `no-exchange`, `disabled-swap`
@@ -116,7 +118,7 @@ Please confirm these — I guessed from name alone:
 - `CircleExclamation` → `alert`, `warning`, `notice`
 - `CircleExclamationFilled` → `alert-filled`, `warning-solid`, `error-selected`
 - `CircleFastForward` → `next-track`, `skip-forward`, `fast-forward-circle`
-- `CircleFilled` → `dot-filled`, `solid-dot`, `bullet`
+- `CircleFilled` → `disc`, `solid-circle`, `dot-filled`
 - `CircleGrid` → `dot-grid`, `pattern`, `apps`
 - `CirclePlay` → `play`, `video`, `start`
 - `CircleQuestion` → `help`, `info`, `question-mark`
@@ -166,6 +168,8 @@ Please confirm these — I guessed from name alone:
 - `DocumentReceipt` → `receipt`, `invoice`, `proof-of-purchase`
 - `DocumentStacked` → `files`, `document-list`, `multiple-docs`
 - `DoorSensor` → `door`, `entry-sensor`, `access-sensor`
+- `Dot` → `ring`, `round`, `bullet`, `circle`
+- `DotFilled` → `solid-dot`, `bullet`, `marker`, `circle-filled`
 - `DotPath` → `route`, `trail`, `breadcrumb`
 - `Download` → `save`, `import`, `get`
 - `Drag` → `move`, `reorder`, `grab`
@@ -296,10 +300,10 @@ Please confirm these — I guessed from name alone:
 - `MapNavigation` → `directions`, `navigate`, `route-map`
 - `MarkRead` → `read`, `seen`, `envelope-open`
 - `Match` → `matching`, `equal`, `linked`
-- `MenuCollapse` → `collapse-menu`, `hide-sidebar`, `nav-collapse`
-- `MenuCollapseB` → `collapse-menu-alt`, `hide-sidebar-alt`, `nav-collapse-variant`
-- `MenuExpand` → `expand-menu`, `show-sidebar`, `nav-expand`
-- `MenuExpandB` → `expand-menu-alt`, `show-sidebar-alt`, `nav-expand-variant`
+- `LeftCollapse` → `collapse-menu`, `hide-sidebar`, `nav-collapse`, `collapse-left`
+- `LeftCollapseB` → `collapse-menu-alt`, `hide-sidebar-alt`, `nav-collapse-variant`, `collapse-left-alt`
+- `LeftExpand` → `expand-menu`, `show-sidebar`, `nav-expand`, `expand-left`
+- `LeftExpandB` → `expand-menu-alt`, `show-sidebar-alt`, `nav-expand-variant`, `expand-left-alt`
 - `MessageBubble` → `chat`, `message`, `comment`
 - `MessageBubbleStack` → `conversation`, `messages`, `chat-list`
 - `Messaging` → `chat`, `sms`, `texting`
@@ -329,6 +333,7 @@ Please confirm these — I guessed from name alone:
 - `PaperplaneMarker` → `send-location`, `send-marker`, `location-send`
 - `PaperplaneSend` → `send`, `submit`, `deliver`
 - `Paragraph` → `text-block`, `pilcrow`, `paragraph-mark`
+- `ParagraphCheck` → `text-verified`, `content-approved`, `paragraph-verified`
 - `ParagraphPencil` → `edit-text`, `text-edit`, `paragraph-edit`
 - `Pause` → `stop-playback`, `pause-media`, `hold`
 - `PauseFilled` → `pause-filled`, `hold-solid`, `pause-selected`
@@ -351,6 +356,7 @@ Please confirm these — I guessed from name alone:
 - `PipBottomRight` → `pip-bottom-right`, `picture-in-picture-br`, `overlay-br`
 - `PipTopLeft` → `pip-top-left`, `picture-in-picture-tl`, `overlay-tl`
 - `PipTopRight` → `pip-top-right`, `picture-in-picture-tr`, `overlay-tr`
+- `Pin` → `thumbtack`, `pushpin`, `attach`
 - `Play` → `start`, `begin`, `run`
 - `PlayFilled` → `play-filled`, `start-solid`, `play-selected`
 - `Plug` → `power`, `connect`, `outlet`
@@ -371,6 +377,10 @@ Please confirm these — I guessed from name alone:
 - `Rewind` → `back`, `previous`, `replay`
 - `RewindSkip` → `skip-back`, `previous-chapter`, `jump-back`
 - `RewindSkipFilled` → `skip-back-filled`, `previous-solid`, `rewind-selected`
+- `RightCollapse` → `collapse-menu-right`, `hide-sidebar-right`, `nav-collapse-right`, `collapse-right`
+- `RightCollapseB` → `collapse-menu-right-alt`, `hide-sidebar-right-alt`, `nav-collapse-right-variant`, `collapse-right-alt`
+- `RightExpand` → `expand-menu-right`, `show-sidebar-right`, `nav-expand-right`, `expand-right`
+- `RightExpandB` → `expand-menu-right-alt`, `show-sidebar-right-alt`, `nav-expand-right-variant`, `expand-right-alt`
 - `RightTurnSignal` → `right-turn`, `right-blinker`, `turn-right`
 - `Rotate` → `spin`, `turn`, `orient`
 
@@ -407,17 +417,22 @@ Please confirm these — I guessed from name alone:
 - `SpikeCirclePercentageFilled` → `spike-percent-filled`, `surge-solid`, `anomaly-selected`
 - `Square` → `rectangle`, `box-outline`, `quadrilateral`
 - `SquareCheck` → `checkbox-checked`, `tick-box`, `square-tick`
+- `SquareCheckFilled` → `checkbox-checked-filled`, `tick-box-solid`, `square-tick-filled`
+- `SquareDollar` → `dollar-box`, `money-square`, `price-outline`
 - `SquareDollarFilled` → `dollar-square`, `money-box`, `price-box`
+- `SquareFilled` → `rectangle-filled`, `box-solid`, `filled-box`
 - `SquareGrid` → `grid`, `apps`, `squares`
 - `SquarePencil` → `edit-box`, `text-edit-square`, `compose`
 - `SquarePlus` → `add-box`, `new-square`, `plus-box`
 - `SquareSubtract` → `remove-box`, `minus-box`, `subtract-square`
+- `SquareSubtractFilled` → `remove-box-filled`, `minus-box-solid`, `subtract-square-filled`
 - `Star` → `favorite`, `rate`, `featured`
 - `StarFilled` → `favorite-filled`, `rated-solid`, `star-selected`
 - `Stopwatch` → `timer`, `chronometer`, `lap`
 - `Street` → `road`, `path`, `avenue`
 - `Subtract` → `minus`, `remove`, `decrement`
 - `SubtractCircle` → `minus-circle`, `remove-round`, `decrement-circle`
+- `SubtractCircleFilled` → `minus-circle-filled`, `remove-round-solid`, `decrement-circle-filled`
 
 ### T
 
