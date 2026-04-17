@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build icons
+        run: npm run build
+
+      - name: Build docs
+        run: npm run build:docs
+
+      - name: Verify dist output
+        run: |
+          test -f dist/index.mjs
+          test -f dist/index.d.ts
+          test -f dist/meta.json
+          test -f dist/sprite.svg
+          COUNT=$(node -e 'console.log(require("./dist/meta.json").count)')
+          SYSTEM=$(node -e 'console.log(require("./dist/meta.json").categories.system.count)')
+          FLAG=$(node -e 'console.log(require("./dist/meta.json").categories.flag.count)')
+          echo "Built $COUNT icons (system: $SYSTEM, flag: $FLAG)"
+
+      - name: Check for uncommitted src changes
+        run: |
+          if ! git diff --quiet src/; then
+            echo "::error::Build produced changes in src/ — ensure source is stable"
+            git diff src/
+            exit 1
+          fi
