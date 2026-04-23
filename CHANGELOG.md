@@ -4,6 +4,13 @@ All notable changes to `@ds-mo/icons` are documented here.
 
 ---
 
+## [1.0.1](https://github.com/zainadeel/icomo/compare/v1.0.0...v1.0.1) (2026-04-23)
+
+
+### Fixed
+
+* use auto-updating npm badge in readme ([#35](https://github.com/zainadeel/icomo/issues/35)) ([1204d03](https://github.com/zainadeel/icomo/commit/1204d034319b126d050ccc453254890bf612fa2a))
+
 ## [1.0.0](https://github.com/zainadeel/icomo/compare/v0.7.4...v1.0.0) (2026-04-23)
 
 
