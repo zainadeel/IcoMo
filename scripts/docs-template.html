@@ -212,7 +212,7 @@
 
     /* Tooltip */
     .icon-card::after {
-      content: 'Click to copy import';
+      content: 'Click for options';
       position: absolute;
       bottom: calc(100% + 6px);
       left: 50%;
@@ -228,7 +228,35 @@
       z-index: 30;
     }
     .icon-card:hover::after { opacity: 1; }
-    .icon-card.copied::after { content: 'Copied!'; opacity: 1; }
+    .icon-card.menu-open::after { opacity: 0; }
+
+    /* ── Icon menu ───────────────────────────────────────────────────────── */
+    .icon-menu {
+      position: fixed;
+      z-index: 200;
+      min-width: 200px;
+      padding: 4px 0;
+      background: var(--bg);
+      border: 1px solid var(--divider);
+      font-size: 12px;
+      line-height: 1;
+    }
+    .icon-menu-item {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      background: none;
+      border: none;
+      color: var(--fg);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+    .icon-menu-item:hover,
+    .icon-menu-item:focus-visible {
+      background: var(--divider);
+      outline: none;
+    }
 
     /* ── Empty state ─────────────────────────────────────────────────────── */
     .empty-state {
@@ -490,7 +518,8 @@ function render() {
     card.className = 'icon-card';
     card.setAttribute('role', 'listitem');
     card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `${icon.pascal} — click to copy import`);
+    card.setAttribute('aria-haspopup', 'menu');
+    card.setAttribute('aria-label', `${icon.pascal} — click for options`);
 
     card.innerHTML = `
       <svg aria-hidden="true" focusable="false" fill="currentColor">
@@ -498,11 +527,14 @@ function render() {
       </svg>
       <span class="icon-name">${escHtml(icon.pascal)}</span>`;
 
-    card.addEventListener('click', () => copyImport(icon.pascal, card));
+    card.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleMenu(icon, card);
+    });
     card.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        copyImport(icon.pascal, card);
+        toggleMenu(icon, card);
       }
     });
 
@@ -513,21 +545,98 @@ function render() {
   grid.appendChild(frag);
 }
 
-// ── Copy import ───────────────────────────────────────────────────────────────
+// ── Icon actions menu ─────────────────────────────────────────────────────────
 
 let toastTimer = null;
-let copyTimer = null;
+let activeMenu = null;
 
-function copyImport(pascal, card) {
+function toggleMenu(icon, card) {
+  if (activeMenu && activeMenu.card === card) {
+    closeMenu();
+    return;
+  }
+  openMenu(icon, card);
+}
+
+function openMenu(icon, card) {
+  closeMenu();
+
+  const menu = document.createElement('div');
+  menu.className = 'icon-menu';
+  menu.setAttribute('role', 'menu');
+
+  const themeable = CATEGORIES[icon.category]?.themeable !== false;
+  const items = [
+    { label: 'Copy import code for React', run: () => copyImport(icon.pascal) },
+    ...(themeable
+      ? [
+          { label: 'Download as PNG in black', run: () => downloadPng(icon, '#000000') },
+          { label: 'Download as PNG in white', run: () => downloadPng(icon, '#ffffff') },
+        ]
+      : [{ label: 'Download as PNG', run: () => downloadPng(icon) }]),
+    { label: 'Download as SVG', run: () => downloadSvg(icon) },
+  ];
+
+  items.forEach(({ label, run }) => {
+    const btn = document.createElement('button');
+    btn.className = 'icon-menu-item';
+    btn.type = 'button';
+    btn.setAttribute('role', 'menuitem');
+    btn.textContent = label;
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      closeMenu();
+      try { run(); } catch (err) { showToast('Error: ' + err.message); }
+    });
+    menu.appendChild(btn);
+  });
+
+  document.body.appendChild(menu);
+
+  // Anchor menu's top-left to the card's bottom-left; flip above on overflow
+  const rect = card.getBoundingClientRect();
+  const menuRect = menu.getBoundingClientRect();
+  const margin = 8;
+  let top = rect.bottom + 6;
+  if (top + menuRect.height + margin > window.innerHeight) {
+    top = Math.max(margin, rect.top - menuRect.height - 6);
+  }
+  let left = Math.max(margin, Math.min(rect.left, window.innerWidth - menuRect.width - margin));
+  menu.style.top = top + 'px';
+  menu.style.left = left + 'px';
+
+  card.classList.add('menu-open');
+  activeMenu = { menu, card };
+
+  const firstItem = menu.querySelector('.icon-menu-item');
+  if (firstItem) firstItem.focus();
+}
+
+function closeMenu() {
+  if (!activeMenu) return;
+  activeMenu.card.classList.remove('menu-open');
+  activeMenu.menu.remove();
+  activeMenu = null;
+}
+
+document.addEventListener('click', e => {
+  if (activeMenu && !activeMenu.menu.contains(e.target)) closeMenu();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && activeMenu) {
+    const card = activeMenu.card;
+    closeMenu();
+    card.focus();
+  }
+});
+window.addEventListener('scroll', closeMenu, true);
+window.addEventListener('resize', closeMenu);
+
+// ── Copy import ───────────────────────────────────────────────────────────────
+
+function copyImport(pascal) {
   const text = `import { ${pascal} } from '@ds-mo/icons'`;
-
-  const done = () => {
-    card.classList.add('copied');
-    clearTimeout(copyTimer);
-    copyTimer = setTimeout(() => card.classList.remove('copied'), 700);
-    showToast(text);
-  };
-
+  const done = () => showToast(text);
   if (navigator.clipboard?.writeText) {
     navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
   } else {
@@ -544,6 +653,66 @@ function fallbackCopy(text, cb) {
   try { document.execCommand('copy'); } catch (_) {}
   document.body.removeChild(el);
   cb();
+}
+
+// ── SVG / PNG downloads ───────────────────────────────────────────────────────
+
+function buildStandaloneSvg(icon, { size, color } = {}) {
+  const symbol = document.getElementById(icon.kebab);
+  if (!symbol) throw new Error(`Missing sprite symbol: ${icon.kebab}`);
+  const viewBox = symbol.getAttribute('viewBox') || '0 0 16 16';
+  const symFill = symbol.getAttribute('fill') || 'currentColor';
+  const serializer = new XMLSerializer();
+  let inner = '';
+  for (const child of symbol.children) inner += serializer.serializeToString(child);
+  const w = size ?? 16;
+  const colorAttr = color ? ` color="${color}"` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${w}" viewBox="${viewBox}" fill="${symFill}"${colorAttr}>${inner}</svg>`;
+}
+
+function downloadSvg(icon) {
+  const svg = buildStandaloneSvg(icon);
+  const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+  triggerDownload(blob, `${icon.kebab}.svg`);
+  showToast(`${icon.kebab}.svg`);
+}
+
+function downloadPng(icon, color) {
+  const svg = buildStandaloneSvg(icon, { size: 512, color });
+  const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, 512, 512);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(pngBlob => {
+      if (!pngBlob) { showToast('Error generating PNG'); return; }
+      const suffix = color ? `-${color === '#ffffff' ? 'white' : 'black'}` : '';
+      const name = `${icon.kebab}${suffix}.png`;
+      triggerDownload(pngBlob, name);
+      showToast(name);
+    }, 'image/png');
+  };
+  img.onerror = () => {
+    URL.revokeObjectURL(url);
+    showToast('Error generating PNG');
+  };
+  img.src = url;
+}
+
+function triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 100);
 }
 
 function showToast(msg) {
